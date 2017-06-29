@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Created on Mon Apr 24 22:55:30 2017
+ICARE 0.1
 
-@author: Uriel Martinez
+Created on Thursday 29th June 2017
+
+@author: Uriel Martinez-Hernandez
 """
 
 # First try using data from walking activities generated in MATLAB
@@ -22,13 +24,28 @@ import numpy.ma as ma
 from PIL import Image                                                            
 import glob
 
-#numpy.random.seed(7)
-
 
 np.random.seed(7)
 
-#all_data = sio.loadmat('cnn_dft_activity_data_3_1a.mat');
-#raw_data = all_data['complete_dft_data'];
+
+'''
+function name: getNamePrediction
+purpose: map from classes to names
+parameters:
+    listOfNames: list of labels/names of training classes
+    classPredicted: classes predicted by the CNN model
+output: return the name of a recognised class
+'''
+def getNamePrediction(listOfNames, classPredicted):
+    outputPredicted = []
+    
+    for i in range(len(classPredicted)):
+        #print(listOfNames[classPredicted[i]])
+        outputPredicted.append(listOfNames[classPredicted[i]])
+
+    return outputPredicted
+    
+
 
 namesList = ['uriel', 'fernando']
 
@@ -119,6 +136,10 @@ output = model.predict(x_test, batch_size=1)
 
 print(output)
 print(np.argmax(output, axis=1))
+
+# call function to map from classes to names
+personRecognized = getNamePrediction(namesList, np.argmax(output, axis=1))
+print(personRecognized)
 
 model.predict_proba(x_test, batch_size=1, verbose=1)
 
